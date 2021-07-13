@@ -5,4 +5,4 @@ Data Preprocessing and Data Mining 2021
 
 ```![alt text](filename)```
 
-!.[grading imagr](DPDM21.JPG)
+![grading imagr](DPDM21.JPG)

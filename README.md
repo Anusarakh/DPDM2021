@@ -9,7 +9,7 @@ Data Preprocessing and Data Mining 2021
 
 ------------------------------------
 # Table of contents
-* บทที่ 1 introduction 
+* introduction 
   * [recher](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%20intro%201.pdf)
   * [สรุปบทเรียน](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B8%9A%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99-1.pdf)
     * Data mining 
@@ -17,10 +17,51 @@ Data Preprocessing and Data Mining 2021
     * การทำ Data mining
     * Data mining ในธุรกิจ
   
-* บทที่ 2 Know your data
-  * [recher](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%20Chapter%202.pdf)
-  * [code introduction](https://colab.research.google.com/github/Anusarakh/DPDM2021/blob/main/Data101(Chapter2).ipynb)
+* Know your data
+  * [notes1](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%20Chapter%202.pdf)
+  * [notes2](https://github.com/Anusarakh/DPDM2021/blob/main/HW9-%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B-SimilarityDissimilarity.pdf)
+  * [code Basic Python](https://colab.research.google.com/github/Anusarakh/DPDM2021/blob/main/Data101(Chapter2).ipynb)
     * Basic Python
       * ข้อกำหนดในการตั้งชื่อตัวแปร
       * การสร้าง list
-     
+  * [code Data visualization](https://github.com/Anusarakh/DPDM2021/blob/main/Data_102(Chapter_2).ipynb)
+    * Eyeball data
+    * Satical Description
+    * Visualization
+    * Quiz 7
+  * [code Distance & Numpy Array](https://github.com/Anusarakh/DPDM2021/blob/main/Data103(chapter2_distance).ipynb)
+    * Numpy Array
+    * Indexcing
+    * Useful numpy function
+    * Distance Matrix
+    * Quiz 9
+    * HW 10 (อาจารย์ให้โจทย์ทำ)
+    
+* Data_Preprocessing
+  * [notes & code](https://github.com/Anusarakh/DPDM2021/blob/main/Data_Preprocessing(Chapter3).ipynb) 
+     * เทคนิคการเตรียมข้อมูล
+     * การชี้ข้อมูลในตาราง
+     * Descriptive Statistical of Data
+     * Missing Value
+     * การต่อตาราง แกน Y 
+     * การทำงานกับ Datetime-Timestamp
+     * Noisy data
+     * การต่อตาราง (แนวแกน X)
+     * Group by
+     * Sample record
+
+* Proect midtrem 
+  * [code](https://github.com/Anusarakh/DPDM2021/blob/main/DPDM2021_Project.ipynb)
+  
+* Association_Rules
+  * [notes & code](https://github.com/Anusarakh/DPDM2021/blob/main/Frequent_Patterns_(Association_Rules).ipynb)
+    * จัดการข้อมูลก่อนนำไปใช้
+    * การทำ Association Rules
+    * Quiz ข้อ 1
+    * Quiz ข้อ 2
+    * Quiz ข้อ 3
+    * Quiz ข้อ 4
+ 
+ * Classification
+   * [K-Nearest Neighbor (KNN)](https://github.com/Anusarakh/DPDM2021/blob/main/Classification_(KNN_Evaluation).ipynb)
+   * [Deecision Tree](https://github.com/Anusarakh/DPDM2021/blob/main/Classification(Decision_Tree).ipynb)

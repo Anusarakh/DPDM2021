@@ -10,7 +10,7 @@ Data Preprocessing and Data Mining 2021
 ------------------------------------
 # Table of contents
 * introduction 
-  * [recher](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%20intro%201.pdf)
+  * [notes](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%20intro%201.pdf)
   * [สรุปบทเรียน](https://github.com/Anusarakh/DPDM2021/blob/main/%E0%B8%AA%E0%B8%A3%E0%B8%B8%E0%B8%9B%E0%B8%9A%E0%B8%97%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%99-1.pdf)
     * Data mining 
     * Why data mining 
@@ -65,3 +65,7 @@ Data Preprocessing and Data Mining 2021
  * Classification
    * [K-Nearest Neighbor (KNN)](https://github.com/Anusarakh/DPDM2021/blob/main/Classification_(KNN_Evaluation).ipynb)
    * [Deecision Tree](https://github.com/Anusarakh/DPDM2021/blob/main/Classification(Decision_Tree).ipynb)
+
+* Clustering
+   * [code](https://github.com/Anusarakh/DPDM2021/blob/main/Chap8_Clustering.ipynb)
+   * [notes](https://github.com/Anusarakh/DPDM2021/blob/main/Clustering_Note.ipynb)

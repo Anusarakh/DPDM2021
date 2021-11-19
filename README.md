@@ -69,3 +69,7 @@ Data Preprocessing and Data Mining 2021
 * Clustering
    * [code](https://github.com/Anusarakh/DPDM2021/blob/main/Chap8_Clustering.ipynb)
    * [notes](https://github.com/Anusarakh/DPDM2021/blob/main/Clustering_Note.ipynb)
+   
+* [Final](https://github.com/Anusarakh/DPDM2021/blob/main/Project_Final_2_.ipynb)
+* [PTT นำเสนอ](https://drive.google.com/drive/folders/1hRUWzpRcO-TTR0ilI6BW30L_zcboVSDT)
+

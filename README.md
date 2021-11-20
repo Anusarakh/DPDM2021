@@ -50,7 +50,7 @@ Data Preprocessing and Data Mining 2021
      * Group by
      * Sample record
 
-* Proect midtrem 
+* Project midtrem 
   * [code](https://github.com/Anusarakh/DPDM2021/blob/main/DPDM2021_Project.ipynb)
   
 * Association_Rules
@@ -62,7 +62,7 @@ Data Preprocessing and Data Mining 2021
     * Quiz ข้อ 3
     * Quiz ข้อ 4
  
- * Classification
+* Classification
    * [K-Nearest Neighbor (KNN)](https://github.com/Anusarakh/DPDM2021/blob/main/Classification_(KNN_Evaluation).ipynb)
    * [Deecision Tree](https://github.com/Anusarakh/DPDM2021/blob/main/Classification(Decision_Tree).ipynb)
 

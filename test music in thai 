@@ -1,0 +1,948 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Anusarakh/DPDM2021/blob/main/test%20music%20in%20thai%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "metadata": {
+        "id": "mIWbiNOsy4cj"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "# ข้อมูลตัวอย่าง"
+      ]
+    },
+    {
+      "metadata": {
+        "id": "HiHhGmN_yw-E"
+      },
+      "cell_type": "code",
+      "source": [
+        "text_list = ['''ได้เจอครั้งสุดท้ายตอนที่ดูรูปถ่ายและเมื่อหลับตาครั้งใดยังเห็นเธอกอดเธอในฝันฉันน้ำตาล้นเอ่อสุขเพียงได้เจอในจินตนาการ \n",
+        "แม้เพลงนี้เธอไม่ได้ฟังทุกทุกคำที่เคยบอกไว้งดงามแม้ยิ่งห้ามใจฉันจำได้เสมอที่เธอเคยบอกฉันอย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจ \n",
+        "ที่เธอเคยบอกฉัน อย่าร้องไห้อยากขอโทษที่ทำไม่ได้ที่วาดไว้ด้วยกันจากนี้ฉันต้องฝันคนเดียวบรรจงวาดฝันให้งดงามเหมือนเก่าสุขเกิดเพียงเราถ่วงทุกข์ให้จมดิ่งเพียงแค่ตื่นนั้นก็เลือนลางทุกสิ่งเพราะความเป็นจริงนั้นมีบางสิ่งที่จากไป\n",
+        "แม้เธอนั้นไม่หวนคืนกลับใจซึมซับไปด้วยความหมายเหมือนว่ามีเธอข้างกาย ยังจำได้เสมอที่เธอเคยบอกฉัน อย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจที่เธอเคยบอกฉัน \n",
+        "อย่าร้องไห้อยากขอโทษ ที่ทำไม่ได้ที่วาดไว้ด้วยกันแต่ว่าเธอไม่ได้มาส่งถึงฝั่งฝันไกลนานแค่ไหนยังคงวาดไว้ว่าเรามีกัน \n",
+        "ที่เธอเคยบอกฉันอย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจที่เธอเคยบอกฉันอย่าร้องไห้อยากขอโทษที่ทำไม่ได้ที่วาดไว้ด้วยกันจากนี้ฉันต้องฝันคนเดียว''']"
+      ],
+      "execution_count": 16,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "uNJnNAUE9UOe"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "**Step 1: Text cleaning**"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "a8B8wVIIr13L"
+      }
+    },
+    {
+      "metadata": {
+        "id": "7DLBXasQ2KW7"
+      },
+      "cell_type": "code",
+      "source": [
+        "import re\n",
+        "import string\n",
+        "\n",
+        "def clean_msg(msg):\n",
+        "    \n",
+        "    \n",
+        "    # ลบ text ที่อยู่ในวงเล็บ <> ทั้งหมด\n",
+        "    msg = re.sub(r'<.*?>','', msg)\n",
+        "    \n",
+        "    # ลบ hashtag\n",
+        "    msg = re.sub(r'#','',msg)\n",
+        "    \n",
+        "    # ลบ เครื่องหมายคำพูด (punctuation)\n",
+        "    for c in string.punctuation:\n",
+        "        msg = re.sub(r'\\{}'.format(c),'',msg)\n",
+        "    \n",
+        "    # ลบ separator เช่น \\n \\t\n",
+        "    msg = ' '.join(msg.split())\n",
+        "    \n",
+        "    return msg"
+      ],
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "cAqZE1H92fLY",
+        "outputId": "a2c6d0a7-4cc6-4bb5-f741-07cff4e28445",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "print('original text:\\n',text_list[0])\n"
+      ],
+      "execution_count": 17,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "original text:\n",
+            " ได้เจอครั้งสุดท้ายตอนที่ดูรูปถ่ายและเมื่อหลับตาครั้งใดยังเห็นเธอกอดเธอในฝันฉันน้ำตาล้นเอ่อสุขเพียงได้เจอในจินตนาการ \n",
+            "แม้เพลงนี้เธอไม่ได้ฟังทุกทุกคำที่เคยบอกไว้งดงามแม้ยิ่งห้ามใจฉันจำได้เสมอที่เธอเคยบอกฉันอย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจ \n",
+            "ที่เธอเคยบอกฉัน อย่าร้องไห้อยากขอโทษที่ทำไม่ได้ที่วาดไว้ด้วยกันจากนี้ฉันต้องฝันคนเดียวบรรจงวาดฝันให้งดงามเหมือนเก่าสุขเกิดเพียงเราถ่วงทุกข์ให้จมดิ่งเพียงแค่ตื่นนั้นก็เลือนลางทุกสิ่งเพราะความเป็นจริงนั้นมีบางสิ่งที่จากไป\n",
+            "แม้เธอนั้นไม่หวนคืนกลับใจซึมซับไปด้วยความหมายเหมือนว่ามีเธอข้างกาย ยังจำได้เสมอที่เธอเคยบอกฉัน อย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจที่เธอเคยบอกฉัน \n",
+            "อย่าร้องไห้อยากขอโทษ ที่ทำไม่ได้ที่วาดไว้ด้วยกันแต่ว่าเธอไม่ได้มาส่งถึงฝั่งฝันไกลนานแค่ไหนยังคงวาดไว้ว่าเรามีกัน \n",
+            "ที่เธอเคยบอกฉันอย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจที่เธอเคยบอกฉันอย่าร้องไห้อยากขอโทษที่ทำไม่ได้ที่วาดไว้ด้วยกันจากนี้ฉันต้องฝันคนเดียว\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print('clean text:\\n',clean_msg(text_list[0]))"
+      ],
+      "metadata": {
+        "id": "v3bX322Oq0su",
+        "outputId": "8950230d-549c-4c5c-e315-cf189d46df0e",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "clean text:\n",
+            " ได้เจอครั้งสุดท้ายตอนที่ดูรูปถ่ายและเมื่อหลับตาครั้งใดยังเห็นเธอกอดเธอในฝันฉันน้ำตาล้นเอ่อสุขเพียงได้เจอในจินตนาการ แม้เพลงนี้เธอไม่ได้ฟังทุกทุกคำที่เคยบอกไว้งดงามแม้ยิ่งห้ามใจฉันจำได้เสมอที่เธอเคยบอกฉันอย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจ ที่เธอเคยบอกฉัน อย่าร้องไห้อยากขอโทษที่ทำไม่ได้ที่วาดไว้ด้วยกันจากนี้ฉันต้องฝันคนเดียวบรรจงวาดฝันให้งดงามเหมือนเก่าสุขเกิดเพียงเราถ่วงทุกข์ให้จมดิ่งเพียงแค่ตื่นนั้นก็เลือนลางทุกสิ่งเพราะความเป็นจริงนั้นมีบางสิ่งที่จากไป แม้เธอนั้นไม่หวนคืนกลับใจซึมซับไปด้วยความหมายเหมือนว่ามีเธอข้างกาย ยังจำได้เสมอที่เธอเคยบอกฉัน อย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจที่เธอเคยบอกฉัน อย่าร้องไห้อยากขอโทษ ที่ทำไม่ได้ที่วาดไว้ด้วยกันแต่ว่าเธอไม่ได้มาส่งถึงฝั่งฝันไกลนานแค่ไหนยังคงวาดไว้ว่าเรามีกัน ที่เธอเคยบอกฉันอย่าร้องไห้อยู่ให้ได้ถ้าเธอไม่อยู่โปรดรับรู้เธอยังอยู่ในใจที่เธอเคยบอกฉันอย่าร้องไห้อยากขอโทษที่ทำไม่ได้ที่วาดไว้ด้วยกันจากนี้ฉันต้องฝันคนเดียว\n"
+          ]
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "TXzjQ3fj2iWY",
+        "outputId": "6df2a7f9-6a0f-44f0-d36c-b11f94fe7849",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 165
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "print('original text:\\n',text_list[1])\n"
+      ],
+      "execution_count": 19,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "IndexError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mIndexError\u001b[0m                                Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-19-de9afceba4b9>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'original text:\\n'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mtext_list\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mIndexError\u001b[0m: list index out of range"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print('clean text:\\n',clean_msg(text_list[1]))"
+      ],
+      "metadata": {
+        "id": "pSUJkIaDqtbH",
+        "outputId": "68b3caea-95f2-45be-ee3c-f4582cfd339e",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 165
+        }
+      },
+      "execution_count": 6,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "IndexError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mIndexError\u001b[0m                                Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-6-df0f4cc24455>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'clean text:\\n'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0mclean_msg\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtext_list\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mIndexError\u001b[0m: list index out of range"
+          ]
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "XM4tAaU2Gxf-"
+      },
+      "cell_type": "code",
+      "source": [
+        "clean_text = [clean_msg(txt) for txt in text_list]"
+      ],
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pythainlp import word_tokenize"
+      ],
+      "metadata": {
+        "id": "r0yIYbqA0-mq"
+      },
+      "execution_count": 22,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "HMsJiL3-_4p5"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "**Step 2: Tokenize**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install pythainlp"
+      ],
+      "metadata": {
+        "id": "r522KFUR1HTu",
+        "outputId": "8c3f5030-83f9-4d94-9771-b2fc7d06dcc3",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Requirement already satisfied: pythainlp in /usr/local/lib/python3.7/dist-packages (3.1.1)\n",
+            "Requirement already satisfied: requests>=2.22.0 in /usr/local/lib/python3.7/dist-packages (from pythainlp) (2.23.0)\n",
+            "Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (2.10)\n",
+            "Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (1.24.3)\n",
+            "Requirement already satisfied: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (3.0.4)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (2022.9.24)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install stop_words"
+      ],
+      "metadata": {
+        "id": "0lo4vc_k1KEK",
+        "outputId": "a8062fd8-83ad-4ac7-d83b-1a9a2cd1beee",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 25,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Requirement already satisfied: stop_words in /usr/local/lib/python3.7/dist-packages (2018.7.23)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pythainlp"
+      ],
+      "metadata": {
+        "id": "xOaPI1_H1N_K"
+      },
+      "execution_count": 26,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pythainlp import word_tokenize"
+      ],
+      "metadata": {
+        "id": "pXmXZeWs1QF2"
+      },
+      "execution_count": 27,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pythainlp.corpus import wordnet\n",
+        "from nltk.stem.porter import PorterStemmer\n",
+        "from nltk.corpus import words\n",
+        "from stop_words import get_stop_words"
+      ],
+      "metadata": {
+        "id": "4N3h4BL31bC-",
+        "outputId": "5572ecf5-2425-4ef8-846c-bd44b1cb30d6",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 29,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package omw to /root/nltk_data...\n",
+            "[nltk_data] Downloading package wordnet to /root/nltk_data...\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from pythainlp.corpus import stopwords"
+      ],
+      "metadata": {
+        "id": "VRjcne_T1SFu",
+        "outputId": "24fddef5-d8be-46d0-bae3-15443a757d9a",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 304
+        }
+      },
+      "execution_count": 28,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ImportError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mImportError\u001b[0m                               Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-28-17f2d794d5f9>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0mpythainlp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcorpus\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mstopwords\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+            "\u001b[0;31mImportError\u001b[0m: cannot import name 'stopwords' from 'pythainlp.corpus' (/usr/local/lib/python3.7/dist-packages/pythainlp/corpus/__init__.py)",
+            "",
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0;32m\nNOTE: If your import is failing due to a missing package, you can\nmanually install dependencies using either !pip or !apt.\n\nTo view examples of installing some common dependencies, click the\n\"Open Examples\" button below.\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n"
+          ],
+          "errorDetails": {
+            "actions": [
+              {
+                "action": "open_url",
+                "actionText": "Open Examples",
+                "url": "/notebooks/snippets/importing_libraries.ipynb"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "nd_Ssn4S_cLf",
+        "outputId": "d31f2387-b75a-4790-bc54-ec1b239f5917",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 529
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "!pip install pythainlp\n",
+        "!pip install stop_words\n",
+        "import pythainlp\n",
+        "from pythainlp import word_tokenize\n",
+        "from pythainlp.corpus import stopwords\n",
+        "from pythainlp.corpus import wordnet\n",
+        "from nltk.stem.porter import PorterStemmer\n",
+        "from nltk.corpus import words\n",
+        "from stop_words import get_stop_words"
+      ],
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Requirement already satisfied: pythainlp in /usr/local/lib/python3.7/dist-packages (3.1.1)\n",
+            "Requirement already satisfied: requests>=2.22.0 in /usr/local/lib/python3.7/dist-packages (from pythainlp) (2.23.0)\n",
+            "Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (1.24.3)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (2022.9.24)\n",
+            "Requirement already satisfied: idna<3,>=2.5 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (2.10)\n",
+            "Requirement already satisfied: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests>=2.22.0->pythainlp) (3.0.4)\n",
+            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+            "Requirement already satisfied: stop_words in /usr/local/lib/python3.7/dist-packages (2018.7.23)\n"
+          ]
+        },
+        {
+          "output_type": "error",
+          "ename": "ImportError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mImportError\u001b[0m                               Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-20-9ff1f8473d6b>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mpythainlp\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mpythainlp\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mword_tokenize\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 5\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0mpythainlp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcorpus\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mstopwords\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      6\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mpythainlp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcorpus\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mwordnet\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      7\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mnltk\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mstem\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mporter\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mPorterStemmer\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mImportError\u001b[0m: cannot import name 'stopwords' from 'pythainlp.corpus' (/usr/local/lib/python3.7/dist-packages/pythainlp/corpus/__init__.py)",
+            "",
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0;32m\nNOTE: If your import is failing due to a missing package, you can\nmanually install dependencies using either !pip or !apt.\n\nTo view examples of installing some common dependencies, click the\n\"Open Examples\" button below.\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n"
+          ],
+          "errorDetails": {
+            "actions": [
+              {
+                "action": "open_url",
+                "actionText": "Open Examples",
+                "url": "/notebooks/snippets/importing_libraries.ipynb"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "8t8BnELxAiAo",
+        "outputId": "1b11167b-a392-4e28-abca-5bfbacedaa8e",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 269
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "import nltk\n",
+        "nltk.download('words')\n",
+        "th_stop = tuple(stopwords.words('thai'))\n",
+        "en_stop = tuple(get_stop_words('en'))\n",
+        "p_stemmer = PorterStemmer()"
+      ],
+      "execution_count": 30,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "[nltk_data] Downloading package words to /root/nltk_data...\n",
+            "[nltk_data]   Package words is already up-to-date!\n"
+          ]
+        },
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-30-b75d5630aeda>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mnltk\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0mnltk\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdownload\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'words'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mth_stop\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mtuple\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mstopwords\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mwords\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'thai'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      4\u001b[0m \u001b[0men_stop\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mtuple\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mget_stop_words\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'en'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0mp_stemmer\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mPorterStemmer\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mNameError\u001b[0m: name 'stopwords' is not defined"
+          ]
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "L0PE6j5gAk2O"
+      },
+      "cell_type": "code",
+      "source": [
+        "def split_word(text):\n",
+        "            \n",
+        "    \n",
+        "    tokens = word_tokenize(text,engine='newmm')\n",
+        "    \n",
+        "    # Remove stop words ภาษาไทย และภาษาอังกฤษ\n",
+        "    tokens = [i for i in tokens if not i in th_stop and not i in en_stop]\n",
+        "    \n",
+        "    # หารากศัพท์ภาษาไทย และภาษาอังกฤษ\n",
+        "    # English\n",
+        "    tokens = [p_stemmer.stem(i) for i in tokens]\n",
+        "    \n",
+        "    # Thai\n",
+        "    tokens_temp=[]\n",
+        "    for i in tokens:\n",
+        "        w_syn = wordnet.synsets(i)\n",
+        "        if (len(w_syn)>0) and (len(w_syn[0].lemma_names('tha'))>0):\n",
+        "            tokens_temp.append(w_syn[0].lemma_names('tha')[0])\n",
+        "        else:\n",
+        "            tokens_temp.append(i)\n",
+        "    \n",
+        "    tokens = tokens_temp\n",
+        "    \n",
+        "    # ลบตัวเลข\n",
+        "    tokens = [i for i in tokens if not i.isnumeric()]\n",
+        "    \n",
+        "    # ลบช่องว่าง\n",
+        "    tokens = [i for i in tokens if not ' ' in i]\n",
+        "\n",
+        "    return tokens"
+      ],
+      "execution_count": 31,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "Ncd6qBzeCtDD",
+        "outputId": "c3803738-2f27-40a3-fe83-9768c3649f12",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 328
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "print('tokenized text:\\n',split_word(clean_msg(text_list[0])))\n",
+        "print('tokenized text:\\n',split_word(clean_msg(text_list[1])))"
+      ],
+      "execution_count": 32,
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "NameError",
+          "evalue": "ignored",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-32-1bbe308b8530>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'tokenized text:\\n'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0msplit_word\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mclean_msg\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtext_list\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'tokenized text:\\n'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0msplit_word\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mclean_msg\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtext_list\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m<ipython-input-31-a0ce69c7db7b>\u001b[0m in \u001b[0;36msplit_word\u001b[0;34m(text)\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m     \u001b[0;31m# Remove stop words ภาษาไทย และภาษาอังกฤษ\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 7\u001b[0;31m     \u001b[0mtokens\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mtokens\u001b[0m \u001b[0;32mif\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mth_stop\u001b[0m \u001b[0;32mand\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0men_stop\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      8\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      9\u001b[0m     \u001b[0;31m# หารากศัพท์ภาษาไทย และภาษาอังกฤษ\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;32m<ipython-input-31-a0ce69c7db7b>\u001b[0m in \u001b[0;36m<listcomp>\u001b[0;34m(.0)\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m     \u001b[0;31m# Remove stop words ภาษาไทย และภาษาอังกฤษ\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 7\u001b[0;31m     \u001b[0mtokens\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m \u001b[0;32mfor\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mtokens\u001b[0m \u001b[0;32mif\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mth_stop\u001b[0m \u001b[0;32mand\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0men_stop\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      8\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      9\u001b[0m     \u001b[0;31m# หารากศัพท์ภาษาไทย และภาษาอังกฤษ\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mNameError\u001b[0m: name 'th_stop' is not defined"
+          ]
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "_E6wussDHCkm"
+      },
+      "cell_type": "code",
+      "source": [
+        "tokens_list = [split_word(txt) for txt in clean_text]"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "0FXgJH4JHPYg",
+        "outputId": "d0a593a8-5dd0-4513-a9f2-e6c037bd204b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 1513
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "tokens_list"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[['เฟ็ด',\n",
+              "  'เฟ่',\n",
+              "  'เดอะ',\n",
+              "  'ค็อป',\n",
+              "  'คลิป',\n",
+              "  'ข่าวสด',\n",
+              "  'เด่น',\n",
+              "  'ออนไลน์',\n",
+              "  'รีบ',\n",
+              "  'ดูก่อน',\n",
+              "  'โดน',\n",
+              "  'ลบ',\n",
+              "  'เฟ็ด',\n",
+              "  'เฟ่',\n",
+              "  'สร้าง',\n",
+              "  'ฮึก',\n",
+              "  'เฮิม',\n",
+              "  'นั่ง',\n",
+              "  'หลังคา',\n",
+              "  'รถ',\n",
+              "  'ชู',\n",
+              "  'ถ้วย',\n",
+              "  'จุด',\n",
+              "  'พลุ',\n",
+              "  'มั่น',\n",
+              "  'ใจมา',\n",
+              "  'แน่นอน',\n",
+              "  'บิ',\n",
+              "  'วด์',\n",
+              "  'เข้าไป',\n",
+              "  'เกม',\n",
+              "  'การแข่งขัน',\n",
+              "  'ยูฟ่า',\n",
+              "  'แชมเปียนส์',\n",
+              "  'ลีก',\n",
+              "  'รอบ',\n",
+              "  '…'],\n",
+              " ['แอด',\n",
+              "  'ขอให้',\n",
+              "  'คนอ่าน',\n",
+              "  'วิจารณญาณ',\n",
+              "  'ดุลยพินิจ',\n",
+              "  'อ่าน',\n",
+              "  'คำพูด',\n",
+              "  'สอบถาม',\n",
+              "  'ยาย',\n",
+              "  'ข้างเดียว',\n",
+              "  'มาจาก',\n",
+              "  'ใจ',\n",
+              "  'ปาก',\n",
+              "  'ยาย',\n",
+              "  'มีโอกาส',\n",
+              "  'สอบถาม',\n",
+              "  'มุม',\n",
+              "  'ตัว',\n",
+              "  'โอรส',\n",
+              "  'คน',\n",
+              "  'ยาย',\n",
+              "  'ไล่',\n",
+              "  'ยาย',\n",
+              "  'ขา',\n",
+              "  'พิการ',\n",
+              "  'หลานชาย',\n",
+              "  'พิการ',\n",
+              "  'นอน',\n",
+              "  'ข้างทาง',\n",
+              "  'อย่า',\n",
+              "  'ๆคง',\n",
+              "  'มีเหตุผล',\n",
+              "  'ยาย',\n",
+              "  'ลูกไล่',\n",
+              "  'ขอร้อง',\n",
+              "  'ปวดใจ',\n",
+              "  'ปชช.',\n",
+              "  'รู้',\n",
+              "  'ข่าว',\n",
+              "  'อาหาร',\n",
+              "  'น้ำ',\n",
+              "  'ยาย',\n",
+              "  'หลาน',\n",
+              "  'พิการ',\n",
+              "  'กิน',\n",
+              "  'กิน',\n",
+              "  'โอรส',\n",
+              "  'ไล่',\n",
+              "  'นอน',\n",
+              "  'ศาลา',\n",
+              "  'ร']]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 11
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "5xyaFdoLF-bm"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "**Step 3 + 4a: Bag of words + count word**"
+      ]
+    },
+    {
+      "metadata": {
+        "id": "KacGNWcMjzrn"
+      },
+      "cell_type": "code",
+      "source": [
+        "from sklearn.feature_extraction.text import CountVectorizer\n",
+        "tokens_list_j = [','.join(tkn) for tkn in tokens_list]\n",
+        "cvec = CountVectorizer(analyzer=lambda x:x.split(','))\n",
+        "c_feat = cvec.fit_transform(tokens_list_j)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "LOcncIVCkvw6",
+        "outputId": "dd34f2d2-e0ab-4038-d2f0-a6a7f62f58ec",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 1275
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "cvec.vocabulary_"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "{'การแข่งขัน': 0,\n",
+              " 'กิน': 1,\n",
+              " 'ขอร้อง': 2,\n",
+              " 'ขอให้': 3,\n",
+              " 'ขา': 4,\n",
+              " 'ข่าว': 5,\n",
+              " 'ข่าวสด': 6,\n",
+              " 'ข้างทาง': 7,\n",
+              " 'ข้างเดียว': 8,\n",
+              " 'คน': 9,\n",
+              " 'คนอ่าน': 10,\n",
+              " 'คลิป': 11,\n",
+              " 'คำพูด': 12,\n",
+              " 'ค็อป': 13,\n",
+              " 'จุด': 14,\n",
+              " 'ชู': 15,\n",
+              " 'ดุลยพินิจ': 16,\n",
+              " 'ดูก่อน': 17,\n",
+              " 'ตัว': 18,\n",
+              " 'ถ้วย': 19,\n",
+              " 'นอน': 20,\n",
+              " 'นั่ง': 21,\n",
+              " 'น้ำ': 22,\n",
+              " 'บิ': 23,\n",
+              " 'ปชช.': 24,\n",
+              " 'ปวดใจ': 25,\n",
+              " 'ปาก': 26,\n",
+              " 'พลุ': 27,\n",
+              " 'พิการ': 28,\n",
+              " 'มั่น': 29,\n",
+              " 'มาจาก': 30,\n",
+              " 'มีเหตุผล': 31,\n",
+              " 'มีโอกาส': 32,\n",
+              " 'มุม': 33,\n",
+              " 'ยาย': 34,\n",
+              " 'ยูฟ่า': 35,\n",
+              " 'ร': 36,\n",
+              " 'รถ': 37,\n",
+              " 'รอบ': 38,\n",
+              " 'รีบ': 39,\n",
+              " 'รู้': 40,\n",
+              " 'ลบ': 41,\n",
+              " 'ลีก': 42,\n",
+              " 'ลูกไล่': 43,\n",
+              " 'วด์': 44,\n",
+              " 'วิจารณญาณ': 45,\n",
+              " 'ศาลา': 46,\n",
+              " 'สร้าง': 47,\n",
+              " 'สอบถาม': 48,\n",
+              " 'หลังคา': 49,\n",
+              " 'หลาน': 50,\n",
+              " 'หลานชาย': 51,\n",
+              " 'อย่า': 52,\n",
+              " 'ออนไลน์': 53,\n",
+              " 'อาหาร': 54,\n",
+              " 'อ่าน': 55,\n",
+              " 'ฮึก': 56,\n",
+              " 'เกม': 57,\n",
+              " 'เข้าไป': 58,\n",
+              " 'เดอะ': 59,\n",
+              " 'เด่น': 60,\n",
+              " 'เฟ็ด': 61,\n",
+              " 'เฟ่': 62,\n",
+              " 'เฮิม': 63,\n",
+              " 'แชมเปียนส์': 64,\n",
+              " 'แน่นอน': 65,\n",
+              " 'แอด': 66,\n",
+              " 'โดน': 67,\n",
+              " 'โอรส': 68,\n",
+              " 'ใจ': 69,\n",
+              " 'ใจมา': 70,\n",
+              " 'ไล่': 71,\n",
+              " 'ๆคง': 72,\n",
+              " '…': 73}"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 14
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "MCfZP-NMb0lM",
+        "outputId": "88efc12b-2d21-4c8d-bec4-16da347ee730",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 51
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "c_feat[:,:20].todense()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "matrix([[1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1],\n",
+              "        [0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 15
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "nmOB-4XYp5FM"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "**Step 3 + 4b: Bag of words + tf-idf**"
+      ]
+    },
+    {
+      "metadata": {
+        "id": "3BGXh4AIiVIg"
+      },
+      "cell_type": "code",
+      "source": [
+        "from sklearn.feature_extraction.text import TfidfVectorizer\n",
+        "tvec = TfidfVectorizer(analyzer=lambda x:x.split(','),)\n",
+        "t_feat = tvec.fit_transform(tokens_list_j)"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "id": "FXpAGrHaqLAg",
+        "outputId": "fb8f31f5-ce95-4eea-dfe7-77727395d327",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 51
+        }
+      },
+      "cell_type": "code",
+      "source": [
+        "t_feat[:,:5].todense()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "matrix([[0.15617376, 0.        , 0.        , 0.        , 0.        ],\n",
+              "        [0.        , 0.20306923, 0.10153462, 0.10153462, 0.10153462]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 25
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "94JnkQ1CqMnO",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        },
+        "outputId": "14393151-f48c-4150-e898-426559d99497"
+      },
+      "cell_type": "code",
+      "source": [
+        "print(len(tvec.idf_),len(tvec.vocabulary_))"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "74 74\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "xNr2NEFwpZ6r",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 51
+        },
+        "outputId": "489efce1-2e26-462d-90a7-06e7d0ead8e7"
+      },
+      "cell_type": "code",
+      "source": [
+        "c_feat[:,:5].todense()"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "matrix([[1, 0, 0, 0, 0],\n",
+              "        [0, 2, 1, 1, 1]])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 32
+        }
+      ]
+    },
+    {
+      "metadata": {
+        "id": "nkMP7HMKtMM6"
+      },
+      "cell_type": "code",
+      "source": [],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
